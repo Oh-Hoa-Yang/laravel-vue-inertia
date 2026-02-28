@@ -18,8 +18,8 @@ export default defineConfigWithVueTs(
                 typescript: {
                     alwaysTryTypes: true,
                     project: './tsconfig.json',
+                }
                 },
-            },
         },
         rules: {
             'vue/multi-word-component-names': 'off',
@@ -43,5 +43,5 @@ export default defineConfigWithVueTs(
             ],
         },
     },
-    prettier,
+    prettier
 );
