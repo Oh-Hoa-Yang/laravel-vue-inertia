@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\form;
+
 class ListingController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class ListingController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Listing/Create');
     }
 
     /**
@@ -33,7 +35,22 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Checking what we have
+        // dd($request->all());
+
+        // Way to store it (Single)
+        // $listing = new Listing();
+        // $listing->beds = $request->beds;
+        // $listing->save();
+
+        // Instead of setting every single property of the model separately, we can do the below:
+        Listing::create($request->all());
+        // we can use flash messages, with the use of '->with'
+        return redirect()->route('listing.index')->with('success', 'Listing was created!');
+        
+        
+        // Now, mind that storing the user submitted data like that without any validation or sanitization is a bad idea
+
     }
 
     /**
