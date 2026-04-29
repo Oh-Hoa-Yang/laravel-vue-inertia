@@ -44,7 +44,27 @@ class ListingController extends Controller
         // $listing->save();
 
         // Instead of setting every single property of the model separately, we can do the below:
-        Listing::create($request->all());
+        // Listing::create($request->all());
+        Listing::create(
+            $request->validate([
+            // [
+            // this '...' operator, it works essentially the same as the array merge function. 
+            // so, it allows you to merge two arrays together
+            // ...$request->all(),
+            //define some validation constraints
+            // ...$request->validate([
+                'beds' => 'required|integer|min:0|max:20',
+                'baths' => 'required|integer|min:0|max:20',
+                'area' => 'required|integer|min:15|max:1500',
+                'city' => 'required',
+                'code' => 'required',
+                'street' =>'required',
+                'street_nr' => 'required|min:1|max:1000',
+                'price' => 'required|integer|min:1|max:20000000', //cannot use 20_000_000, errors will be 500!, 'The given value "20_000_000" does not represent a valid number.
+            ])
+            // how it works? This final array~>create([]), will contain all elements from the first array, and if the second array happens to have some data with the same keys as the first array, those original values from request all would be replaced. So, this lets you create an intersection of two arrays. 
+        // ]
+        );
         // we can use flash messages, with the use of '->with'
         return redirect()->route('listing.index')->with('success', 'Listing was created!');
         
