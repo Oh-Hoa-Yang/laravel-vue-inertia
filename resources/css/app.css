@@ -6,3 +6,19 @@
 @theme inline {
     --font-sans: Instrument Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Add some temporary basic visibility for development */
+@layer base {
+    input[type="text"], 
+    input[type="number"] {
+        @apply border border-gray-400 rounded px-2 py-1;
+    }
+    
+    button {
+        @apply bg-gray-200 border border-gray-400 px-3 py-1 rounded cursor-pointer text-black;
+    }
+    
+    a {
+        @apply text-blue-600 underline;
+    }
+}
