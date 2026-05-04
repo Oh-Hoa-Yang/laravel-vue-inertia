@@ -11,7 +11,7 @@
         </Link>
     </div>
     <div>
-        <!-- The current Inertia version, no longeår needs to use 'as="button"', it automatically converts to button -->
+        <!-- The current Inertia version, no longer needs to use 'as="button"', it automatically converts to button -->
         <Link :href="route('listing.destroy', {listing: listing.id})" method="DELETE" as="button">
             Delete
         </Link>
