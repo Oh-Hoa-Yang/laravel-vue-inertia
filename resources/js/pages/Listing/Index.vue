@@ -4,7 +4,7 @@
         <Link :href="route('listing.show', {listing: listing.id})">
             <ListingAddress :listing="listing" />
         </Link>
-    </div>å
+    </div>
     <div>
         <Link :href="route('listing.edit', {listing: listing.id})" >
             Edit
