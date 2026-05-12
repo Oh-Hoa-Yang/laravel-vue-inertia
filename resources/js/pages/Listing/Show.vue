@@ -35,10 +35,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import ListingSpace from "@/Components/ListingSpace.vue";
 import Price from "@/Components/Price.vue";
 import Box from "@/Components/UI/Box.vue";
+import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
 import ListingAddress from "../../Components/ListingAddress.vue";
 
 const interestRate = ref(2.5);
@@ -49,20 +50,5 @@ const props = defineProps({
     listing: Object,
 })
 
-const monthlyPayment = computed(() => {
-    // the total amount borrowed
-    const principal = props.listing.price;
-    // Annual interest rates are usually given as percentages (like 5%). To use it in the math, you first divide by 100 to make it a decimal (0.05), and then divide by 12 to get the interest rate per month.
-    const monthlyInterest = interestRate.value / 100 / 12;
-    // Loan terms are usually given in years. Multiplying by 12 gives you the total number of monthly payments you will make.
-    const numberOfPaymentMonths = duration.value * 12;
-
-    // the formula is written as M = P * (r * (1 + r)^n) / ((1 + r)^n - 1)
-    // M is the Monthly Payment -> monthlyPayment
-    // P is the Principal amount (the total amount borrowed) -> principal
-    // r is the monthly interest rate -> monthlyInterest
-    // n is the total number of monthly -> numberOfPaymentMonths
-    // Math.pow(base, exponent)
-    return principal * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPaymentMonths)) / (Math.pow(1 + monthlyInterest, numberOfPaymentMonths) - 1);
-})
+const { monthlyPayment } = useMonthlyPayment(props.listing.price, interestRate, duration)
 </script>
