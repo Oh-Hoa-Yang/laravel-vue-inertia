@@ -10,7 +10,9 @@ class IndexController extends Controller
 {
     public function index() {
         // dd(Listing::all());
-        dd(Auth::user());
+        // dd(Auth::user()); //can use to check all about the authenticated user
+        // dd(Auth::check()); // use to check whether the user is authenticated user or not
+
         return inertia(
             'Index/Index',
             [
