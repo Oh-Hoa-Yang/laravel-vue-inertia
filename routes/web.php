@@ -36,7 +36,7 @@ Route::delete('logout',[AuthController::class, 'destroy'])
     ->name('logout');
 
 Route::resource('user-account', UserAccountController::class)
-    ->only(['create']);
+    ->only(['create', 'store']);
 
 
 // Only allow the show of 'index' and 'show'; others -> need to check middleware auth (Better Understanding Version)
