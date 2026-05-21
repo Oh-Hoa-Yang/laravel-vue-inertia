@@ -37,15 +37,23 @@ class ListingController extends Controller
     {
         // Checking what we have
         // dd($request->all());
-
+        
         // Way to store it (Single)
         // $listing = new Listing();
         // $listing->beds = $request->beds;
         // $listing->save();
-
+        
         // Instead of setting every single property of the model separately, we can do the below:
         // Listing::create($request->all());
-        Listing::create(
+
+
+
+        // Auth::user(); //one way
+
+        // $request->user() //another way
+        // this would not only create the new listing, but it would also associate this listing with the current user
+        $request->user()->listings()->create(
+        // Listing::create(
             $request->validate([
             // [
             // this '...' operator, it works essentially the same as the array merge function. 
