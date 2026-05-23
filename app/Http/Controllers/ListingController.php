@@ -12,7 +12,8 @@ use function Laravel\Prompts\form;
 class ListingController extends Controller
 {
     // Since this ListingController is a resource controller, this means we can use the third way, the simplest way
-    // THIS IS NO LONGER BE USE, IF U USE RESOURCE CONTROLLER, YOU NEED TO DEFINE IT IN web.php 
+    // We can use #[Authorize('viewAny', Listing::class)] --> this is for Laravel 13.x
+    // For Laravel 12.x, the only way is to use Gate Facades -> index, create, store, update [Listing::class] | show, edit, destroy [Listing::class]
     // public function __construct()
     // {
     //     $this->authorizeResource(Listing::class, 'listing');
@@ -22,6 +23,7 @@ class ListingController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // #[Authorize('viewAny', Listing::class)]  (remember to import --> this way of doing is for Laravel 13.x)
     public function index()
     {
         return inertia(
