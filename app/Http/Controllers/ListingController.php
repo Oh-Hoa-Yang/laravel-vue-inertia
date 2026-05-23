@@ -13,7 +13,7 @@ class ListingController extends Controller
 {
     // Since this ListingController is a resource controller, this means we can use the third way, the simplest way
     // We can use #[Authorize('viewAny', Listing::class)] --> this is for Laravel 13.x
-    // For Laravel 12.x, the only way is to use Gate Facades -> index, create, store, update [Listing::class] | show, edit, destroy [Listing::class]
+    // For Laravel 12.x, the only way is to use Gate Facades -> index, create, store [Listing::class] | show, edit, update, destroy [$listing]
     // public function __construct()
     // {
     //     $this->authorizeResource(Listing::class, 'listing');
@@ -26,6 +26,7 @@ class ListingController extends Controller
     // #[Authorize('viewAny', Listing::class)]  (remember to import --> this way of doing is for Laravel 13.x)
     public function index()
     {
+        Gate::authorize('viewAny', Listing::class);
         return inertia(
             'Listing/Index',
             [
@@ -48,6 +49,7 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Listing::class);
         // Checking what we have
         // dd($request->all());
         
@@ -112,6 +114,7 @@ class ListingController extends Controller
     // Laravel will instead fetch the model by the given ID from the route parameter and it will be immediately available in this show() method, so you don't have to call find() anymore.
     public function show(Listing $listing)
     {
+        Gate::authorize('view', Listing::class);
         // you can either try to get the current user and check for this user permissions, or you can use the controller helper method called authorize
         // 'view' is the function name from ListingPolicy.php
 
@@ -140,6 +143,7 @@ class ListingController extends Controller
     // parameter $listing with Listing model, so Laravel will know to fetch it from the database using the given route parameter
     public function edit(Listing $listing)
     {
+        Gate::authorize('update', $listing);
         return inertia(
             'Listing/Edit',
             [
@@ -153,6 +157,7 @@ class ListingController extends Controller
      */
     public function update(Request $request, Listing $listing)
     {
+        Gate::authorize('update', $listing);
         $listing->update(
             $request->validate([
                 'beds' => 'required|integer|min:0|max:20',
@@ -173,6 +178,7 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
+        Gate::authorize('delete', $listing);
         $listing->delete();
 
         redirect()->back()->with('success', 'Listing was deleted!');
