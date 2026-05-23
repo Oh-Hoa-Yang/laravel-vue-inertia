@@ -37,7 +37,10 @@ class ListingPolicy
      */
     public function update(User $user, Listing $listing): bool
     {
-        return true;
+        // We need some rules here, it is not everyone can update it
+        // we use by_user_id to compare with the user's id
+        // this rule means that the only people who can modify a listing are the people who have created the listing
+        return $user->id === $listing->by_user_id;
     }
 
     /**
@@ -45,15 +48,16 @@ class ListingPolicy
      */
     public function delete(User $user, Listing $listing): bool
     {
-        return true;
+        return $user->id === $listing->by_user_id;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
+    // soft delete
     public function restore(User $user, Listing $listing): bool
     {
-        return true;
+        return $user->id === $listing->by_user_id;
     }
 
     /**
@@ -61,6 +65,6 @@ class ListingPolicy
      */
     public function forceDelete(User $user, Listing $listing): bool
     {
-        return true;
+        return $user->id === $listing->by_user_id;
     }
 }
