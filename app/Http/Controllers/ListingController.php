@@ -37,7 +37,7 @@ class ListingController extends Controller
             [
                 'filters' => $filters,
                 // 'listings' => Listing::all()
-                'listings' => Listing::orderByDesc('created_at')->when(
+                'listings' => Listing::mostRecent()->when(
                     $filters['priceFrom'] ?? false,
                     fn ($query, $value) => $query->where('price', '>=', $value)
                 )->when(
