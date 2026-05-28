@@ -32,40 +32,90 @@ class ListingController extends Controller
             'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
         ]);
 
-        $query = Listing::orderByDesc('created_at');
+        // $query = Listing::orderByDesc('created_at'); // TODO: Can be removed after that
+
+        // when() method allows us to conditionally build queries. 
+        // You pass the first argument that needs to evaluate to true, because if it evaluates to false, the following function is not be executed. 
+        // If evaluates to true, the following function is executed, you get two predefined arguments (the $query and the actual value $value from the first expression)
+        // You can use to modify the query. 
+
+        // Another benefit of this when() method is that you can build this query in a fluent way. 
+        // What that means is that instead of having those separate if statement (if ($filters['priceFrom'] ?? false) {$query->where('price', '>=', $filters['priceFrom']);}) or even defining this separate query variable ($query = Listing::orderByDesc('created_at');), you can just do something like this:
+            // TODO: Replace the $query with the code below:
+        // $query = Listing::orderByDesc('created_at')->when(
+        //     $filters['priceFrom'] ?? false,
+        //     fn ($query, $value) => $query->where('price', '>=', $value)
+        // )->when(
+        //     $filters['priceTo'] ?? false,
+        //     fn ($query, $value) => $query->where('price', '<=', $value)
+        // )->when(
+        //     $filters['beds'] ?? false,
+        //     fn ($query, $value) => $query->where('beds', $value)
+        // )->when(
+        //     $filters['baths'] ?? false,
+        //     fn ($query, $value) => $query->where('baths', $value)
+        // )->when(
+        //     $filters['areaFrom'] ?? false,
+        //     fn ($query, $value) => $query->where('area', '>=', $value)
+        // )->when(
+        //     $filters['areaTo'] ?? false,
+        //     fn ($query, $value) => $query->where('area', '<=', $value)
+        // );
+
+        // $query->when(
+        //     $filters['priceFrom'] ?? false,
+        //     fn ($query, $value) => $query->where('price', '>=', $value)
+        // ); // TODO: Can be removed after that
 
         //Add some query conditions
-        if ($filters['priceFrom'] ?? false) {
-            $query->where('price', '>=', $filters['priceFrom']);
-        }
+        // if ($filters['priceFrom'] ?? false) {
+        //     $query->where('price', '>=', $filters['priceFrom']);
+        // } // TODO: Can be removed after shifting the logic 
 
-        if ($filters['priceTo'] ?? false) {
-            $query->where('price', '<=', $filters['priceTo']);
-        }
+        // if ($filters['priceTo'] ?? false) {
+        //     $query->where('price', '<=', $filters['priceTo']);
+        // } // TODO: Can be removed after shifting the logic 
 
-        if ($filters['beds'] ?? false) {
-            $query->where('beds', $filters['beds']);
-        }
+        // if ($filters['beds'] ?? false) {
+        //     $query->where('beds', $filters['beds']);
+        // } // TODO: Can be removed after shifting the logic 
 
-        if ($filters['baths'] ?? false) {
-            $query->where('baths', $filters['baths']);
-        }
+        // if ($filters['baths'] ?? false) {
+        //     $query->where('baths', $filters['baths']);
+        // } // TODO: Can be removed after shifting the logic 
 
-        if ($filters['areaFrom'] ?? false) {
-            $query->where('area', '>=', $filters['areaFrom']);
-        }
+        // if ($filters['areaFrom'] ?? false) {
+        //     $query->where('area', '>=', $filters['areaFrom']);
+        // } // TODO: Can be removed after shifting the logic 
 
-        if ($filters['areaTo'] ?? false) {
-            $query->where('area', '<=', $filters['areaTo']);
-        }
+        // if ($filters['areaTo'] ?? false) {
+        //     $query->where('area', '<=', $filters['areaTo']);
+        // } // TODO: Can be removed after shifting the logic 
 
         return inertia(
             'Listing/Index',
             [
                 'filters' => $filters,
                 // 'listings' => Listing::all()
-                'listings' => $query->paginate(10)
-                    ->withQueryString()
+                'listings' => Listing::orderByDesc('created_at')->when(
+                    $filters['priceFrom'] ?? false,
+                    fn ($query, $value) => $query->where('price', '>=', $value)
+                )->when(
+                    $filters['priceTo'] ?? false,
+                    fn ($query, $value) => $query->where('price', '<=', $value)
+                )->when(
+                    $filters['beds'] ?? false,
+                    fn ($query, $value) => $query->where('beds',(int)$value < 6 ? '=' : '>=', $value)
+                )->when(
+                    $filters['baths'] ?? false,
+                    fn ($query, $value) => $query->where('baths',(int)$value < 6 ? '=' : '>=', $value)
+                )->when(
+                    $filters['areaFrom'] ?? false,
+                    fn ($query, $value) => $query->where('area', '>=', $value)
+                )->when(
+                    $filters['areaTo'] ?? false,
+                    fn ($query, $value) => $query->where('area', '<=', $value)
+                )->paginate(10)->withQueryString()
             ]
         );
     }
