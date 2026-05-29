@@ -37,25 +37,11 @@ class ListingController extends Controller
             [
                 'filters' => $filters,
                 // 'listings' => Listing::all()
-                'listings' => Listing::mostRecent()->when(
-                    $filters['priceFrom'] ?? false,
-                    fn ($query, $value) => $query->where('price', '>=', $value)
-                )->when(
-                    $filters['priceTo'] ?? false,
-                    fn ($query, $value) => $query->where('price', '<=', $value)
-                )->when(
-                    $filters['beds'] ?? false,
-                    fn ($query, $value) => $query->where('beds',(int)$value < 6 ? '=' : '>=', $value)
-                )->when(
-                    $filters['baths'] ?? false,
-                    fn ($query, $value) => $query->where('baths',(int)$value < 6 ? '=' : '>=', $value)
-                )->when(
-                    $filters['areaFrom'] ?? false,
-                    fn ($query, $value) => $query->where('area', '>=', $value)
-                )->when(
-                    $filters['areaTo'] ?? false,
-                    fn ($query, $value) => $query->where('area', '<=', $value)
-                )->paginate(10)->withQueryString()
+                // With the way of using the local scope, we can use the mostRecent() and filter($filters) anywhere, not only in this specific Controller
+                'listings' => Listing::mostRecent()
+                    ->filter($filters)
+                    ->paginate(10)
+                    ->withQueryString()
             ]
         );
     }
