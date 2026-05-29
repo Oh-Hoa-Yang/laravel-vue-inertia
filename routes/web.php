@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\RealtorListingController;
 use App\Http\Controllers\UserAccountController;
 use Illuminate\Support\Facades\Route;
 // use Inertia\Inertia;
@@ -46,3 +47,10 @@ Route::resource('user-account', UserAccountController::class)
 // Route::resource('listing', ListingController::class)
 //     ->except(['index', 'show'])
 //     ->middleware('auth');
+
+Route::prefix('realtor') // in url
+    ->name('realtor.')   // in route name
+    ->middleware('auth')
+    ->group(function () {
+        Route::resource('listing', RealtorListingController::class);
+    });
