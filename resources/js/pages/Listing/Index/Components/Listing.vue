@@ -28,12 +28,12 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import ListingAddress from '@/Components/ListingAddress.vue';
 import ListingSpace from '@/Components/ListingSpace.vue';
 import Price from '@/Components/Price.vue';
 import Box from '@/Components/UI/Box.vue';
-import ListingAddress from '@/Components/ListingAddress.vue';
 import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
-import { ref } from 'vue';
 
 const interestRate = ref(2.5);
 const duration = ref(25);
