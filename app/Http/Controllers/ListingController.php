@@ -187,11 +187,12 @@ class ListingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Listing $listing)
-    {
-        Gate::authorize('delete', $listing);
-        $listing->delete();
+    // public function destroy(Listing $listing)
+    // {
+    //     Gate::authorize('delete', $listing);
+    //     $listing->delete();
 
-        redirect()->back()->with('success', 'Listing was deleted!');
-    }
+    //     redirect()->back()->with('success', 'Listing was deleted!');
+    // } // TODO: Remove and put it to RealtorListingController.php
 }
+           
