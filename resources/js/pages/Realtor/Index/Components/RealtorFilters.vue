@@ -17,6 +17,7 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { debounce } from 'lodash';
 
 const filterForm = reactive({
     deleted: false,
@@ -25,13 +26,15 @@ const filterForm = reactive({
 watch(
     // In old way, we use Inertia.get() and we need to import {Inertia} from '@inertiajs/inertia'
     // but now, we use router.get() and we need to import { router } from '@inertiajs/vue3'
-    filterForm, () => router.get(
+    // debounce is used to prevent the function from being called too often --> tutorial explain: debounce returns a new function and function returned by the bounce whenever it's called in the timespan specified as the second argument to the bounce is being ignored and only the last call after this timespan passes is being actually called.
+    // My words of explanation: if we set the debounce to 1s, and if the user click the button 0.5s and clicked again, the request will be cancelled and as long as 1s of time taken, only the debounce function works. 
+    filterForm, debounce(() => router.get(
         route('realtor.listing.index'),
         filterForm,
         {
             preserveState: true,
             preserveScroll: true,
         }
-    )
+    ), 1000)
 )
 </script>
