@@ -19,7 +19,8 @@ class RealtorListingController extends Controller
         // dd((bool)$request->boolean('deleted')); // and now, ?deleted=true or =1 or =yes; output:true | ?deleted=false or =0 or =no; output:false
         Gate::authorize('viewAny', Listing::class);
         $filters = [
-            'deleted' => $request->boolean('deleted')
+            'deleted' => $request->boolean('deleted'),
+            ...$request->only(['by','order'])
         ];
         // dd(Auth::user()->listings); // for testing whether it can fetch all the records of that user 
         return inertia(
@@ -27,7 +28,7 @@ class RealtorListingController extends Controller
             [
                 'listings' => Auth::user()
                     ->listings()
-                    ->mostRecent()
+                    // ->mostRecent()
                     ->filter($filters)
                     ->get()
             ]
