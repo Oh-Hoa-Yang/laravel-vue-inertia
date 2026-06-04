@@ -15,9 +15,9 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { debounce } from 'lodash';
+import { reactive, watch } from 'vue';
 
 const filterForm = reactive({
     deleted: false,
