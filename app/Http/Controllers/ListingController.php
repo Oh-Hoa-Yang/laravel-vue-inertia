@@ -125,7 +125,6 @@ class ListingController extends Controller
     // Laravel will instead fetch the model by the given ID from the route parameter and it will be immediately available in this show() method, so you don't have to call find() anymore.
     public function show(Listing $listing)
     {
-        Gate::authorize('view', $listing);
         // you can either try to get the current user and check for this user permissions, or you can use the controller helper method called authorize
         // 'view' is the function name from ListingPolicy.php
 
