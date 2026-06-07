@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // This replaces the old $except array in VerifyCsrfToken.php
         $middleware->validateCsrfTokens(except: [
             'logout',
+            'realtor/listing/*'
         ]);
 
         // In web.php, we define ->middleware('auth'), and since middleware come before controller, it will find the middleware auth (from Authenticate.php inside vendor folder). Laravel will automatically find the route that is named 'login' if the user is not authenticated, it will redirect to route named  'login'
