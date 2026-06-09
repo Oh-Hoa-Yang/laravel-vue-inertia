@@ -21,7 +21,7 @@ class RealtorListingImageController extends Controller
         if ($request->hasFile('images')) {
             // we can submit multiple file 
             foreach ($request->file('images') as $file) {
-            $path = $file->store('images', 'public'); // store it to images folder in public disk -> refer to filesystemns.php 
+            $path = $file->store('images', 'public'); // store it to images folder in public disk -> refer to filesystems.php 
 
 
             // Next step, to store the database model
