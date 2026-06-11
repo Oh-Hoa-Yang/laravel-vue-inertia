@@ -61,6 +61,7 @@ class ListingController extends Controller
         // $this->authorize('view', $listing); //This is the outdated way of doing
         Gate::authorize('view', $listing); // The modern Laravel 12 replacement for $this->authorize()
 
+        $listing->load(['images']);
 
         return inertia(
             'Listing/Show',
