@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use App\Models\ListingImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RealtorListingImageController extends Controller
 {
@@ -32,5 +33,17 @@ class RealtorListingImageController extends Controller
             }
         }
         return redirect()->back()->with('success', 'Images uploaded!');
+    }
+
+    public function destroy($listing, ListingImage $image) 
+    {
+        // to access disk, use Storage facade
+        // Storage disk has a static disk method which allows you to access either a specific disk or a default disk. -> Check filesystems.php
+        // In filesystems, default is 
+        Storage::disk('public')->delete($image->filename);
+        // delete the model
+        $image->delete();
+
+        return redirect()->back()->with('success', 'Image was deleted!');
     }
 }

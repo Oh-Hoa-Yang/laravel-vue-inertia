@@ -50,5 +50,5 @@ Route::prefix('realtor') // in url
             // You may specify a subset of these routes by passing an array to the withTrashed method like: Route::resource('photos', PhotoController::class)->withTrashed(['show']);
 
         Route::resource('listing.image', RealtorListingImageController::class)
-            ->only(['create', 'store']);
+            ->only(['create', 'store', 'destroy']);
     });

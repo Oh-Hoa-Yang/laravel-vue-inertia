@@ -17,15 +17,20 @@
     <Box v-if="listing.images.length" class="mt-4">
         <template #header>Current Listing Images</template>
         <section class="mt-4 grid grid-cols-3 gap-4">
-            <div v-for="image in listing.images" :key="image.id">
+            <div v-for="image in listing.images" :key="image.id" class="flex flex-col justify-between">
                 <img :src="image.src" class="rounded-md" />
+                <Link :href="route('realtor.listing.image.destroy', {listing: props.listing.id, image: image.id})"
+                    method="DELETE"
+                    class="mt-2 btn-outline text-xs">
+                Delete
+                </Link>
             </div>
         </section>
     </Box>
 </template>
 
 <script setup>
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, Link } from '@inertiajs/vue3';
 import NProgress from 'nprogress';
 import { computed } from 'vue';
 import Box from '@/Components/UI/Box.vue';
