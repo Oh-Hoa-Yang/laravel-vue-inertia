@@ -21,6 +21,14 @@ class RealtorListingImageController extends Controller
     public function store(Listing $listing, Request $request)
     {
         if ($request->hasFile('images')) {
+            $request->validate([
+                // .* means that those rules that follow should be applied to every element inside the array (as images is an array)
+                'images.*' => 'mimes:jpg,png,jpeg,webp|max:5000' // 5MB
+            ], 
+            [
+                'images.*.mimes' => 'The file should be in one of the formats: jpg, png, jpeg, webp'
+            ]
+        );
             // we can submit multiple file 
             foreach ($request->file('images') as $file) {
             $path = $file->store('images', 'public'); // store it to images folder in public disk -> refer to filesystems.php 
