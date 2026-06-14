@@ -33,6 +33,12 @@ class Listing extends Model
         return $this->hasMany(ListingImage::class);
     }
 
+    // Listing -> 1: Many Offers
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class, 'listing_id');
+    }
+
     // From the tutorial
     public function scopeMostRecent(Builder $query): Builder
     {
