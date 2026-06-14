@@ -57,6 +57,8 @@
                     </div>
                 </div>
             </Box>
+
+            <MakeOffer :listing-id="listing.id" :price="listing.price"/>
         </div>
     </div>
 </template>
@@ -68,6 +70,7 @@ import Price from "@/Components/Price.vue";
 import Box from "@/Components/UI/Box.vue";
 import { useMonthlyPayment } from '@/Composables/useMonthlyPayment';
 import ListingAddress from "../../Components/ListingAddress.vue";
+import MakeOffer from "./Show/Components/MakeOffer.vue";
 
 const interestRate = ref(2.5);
 const duration = ref(25);
