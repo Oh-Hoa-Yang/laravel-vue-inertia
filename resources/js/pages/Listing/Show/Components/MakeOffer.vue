@@ -2,7 +2,7 @@
     <Box>
         <template #header>Make an Offer</template>
         <div>
-            <form action="">
+            <form @submit.prevent="makeOffer" >
                 <input 
                     v-model.number="form.amount" 
                     type="text" 
@@ -20,6 +20,7 @@
                 <button type="submit" class="btn-outline w-full mt-2 text-sm">
                     Make an Offer
                 </button>
+                {{ form.errors.amount }}
             </form>
         </div>
         <div class="flex justify-between text-gray-500 mt-2">
@@ -46,8 +47,15 @@ const form = useForm({
     amount: props.price
 })
 
-const difference = computed(() => form.amount - props.price)
+const makeOffer = () => form.post(
+    route('listing.offer.store', {listing: props.listingId}),
+    {
+        preserveScroll: true,
+        preserveState: true,
+    }
+)
 
-const min = computed(() => props.price / 2)
-const max = computed(() => props.price * 2)
+const difference = computed(() => form.amount - props.price)
+const min = computed(() => Math.round(props.price / 2))
+const max = computed(() => Math.round(props.price * 2))
 </script>
