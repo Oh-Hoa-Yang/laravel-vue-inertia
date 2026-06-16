@@ -60,6 +60,7 @@
 
             <MakeOffer 
                 v-if="user"
+                @offer-updated="updateOfferValue"
                 :listing-id="listing.id" 
                 :price="listing.price"
             />
@@ -85,7 +86,11 @@ const props = defineProps({
     listing: Object,
 })
 
-const { monthlyPayment, totalPaid, totalInterest } = useMonthlyPayment(props.listing.price, interestRate, duration)
+const offer = ref(props.listing.price)
+
+const updateOfferValue = (value) => offer.value = value
+
+const { monthlyPayment, totalPaid, totalInterest } = useMonthlyPayment(offer, interestRate, duration)
 
 const page = usePage()
 const user = computed(

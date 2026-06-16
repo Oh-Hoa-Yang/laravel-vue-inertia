@@ -34,7 +34,8 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { debounce } from 'lodash';
+import { computed, watch } from 'vue';
 import Box from '@/Components/UI/Box.vue';
 import Price from '../../../../Components/Price.vue';
 
@@ -58,4 +59,11 @@ const makeOffer = () => form.post(
 const difference = computed(() => form.amount - props.price)
 const min = computed(() => Math.round(props.price / 2))
 const max = computed(() => Math.round(props.price * 2))
+
+const emit = defineEmits(['offerUpdated'])
+
+watch(
+    () => form.amount,
+    debounce((value) => emit('offerUpdated', value),200) //200 milliseconds
+)
 </script>
