@@ -62,11 +62,13 @@ class ListingController extends Controller
         Gate::authorize('view', $listing); // The modern Laravel 12 replacement for $this->authorize()
 
         $listing->load(['images']);
+        $offer = !Auth::user() ? null : $listing->offers()->byMe()->first();
 
         return inertia(
             'Listing/Show',
             [
-                'listing' => $listing
+                'listing' => $listing,
+                'offerMade' => $offer
             ]
         );
     }
