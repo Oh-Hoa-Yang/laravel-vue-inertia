@@ -50,7 +50,7 @@ Route::prefix('realtor') // in url
             ->put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])
             ->withTrashed();
         Route::resource('listing', RealtorListingController::class)
-            ->only(['index', 'destroy', 'edit', 'update', 'create', 'store'])
+            // ->only(['index', 'destroy', 'edit', 'update', 'create', 'store'])
             ->withTrashed(); //Calling withTrashed() with no arguments will allow soft deleted models for show, edit, and update resource routes. 
             // You may specify a subset of these routes by passing an array to the withTrashed method like: Route::resource('photos', PhotoController::class)->withTrashed(['show']);
 
