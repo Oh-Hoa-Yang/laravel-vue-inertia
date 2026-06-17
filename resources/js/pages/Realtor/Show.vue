@@ -15,15 +15,30 @@
         </Box>
 
         <div v-else class="md:col-span-7 items-center">
-            This is displayed when there are offers!
+            <Offer 
+                v-for="offer in listing.offers" 
+                :key="offer.id" 
+                class="mb-4"
+                :offer="offer"
+                :listing-price="listing.price"
+            />
         </div>
 
         <Box class="md:col-span-5">
             <template #header>Basic Info</template>
-            <Price :price="listing.price" class="text-2xl font-bold" />
+            <Price 
+                :price="listing.price" 
+                class="text-2xl font-bold" 
+            />
 
-            <ListingSpace :listing="listing" class="text-lg" />
-            <ListingAddress :listing="listing" class="text-gray-500" />
+            <ListingSpace 
+                :listing="listing" 
+                class="text-lg" 
+            />
+            <ListingAddress 
+                :listing="listing" 
+                class="text-gray-500" 
+            />
         </Box>
     </section>
 </template>
@@ -35,10 +50,12 @@ import Box from '@/Components/UI/Box.vue';
 import { Link } from '@inertiajs/vue3';
 import ListingAddress from '../../Components/ListingAddress.vue';
 import { computed } from 'vue';
+import Offer from './Show/Components/Offer.vue';
 
 
 const props = defineProps({
     listing: Object,
+    offer: Object,
 })
 
 const hasOffers = computed(
