@@ -2,6 +2,8 @@
     <Box>
         <template #header>Offer #{{ offer.id }}</template>
 
+        <!-- {{ offer }} -->
+
         <section class="flex items-center justify-between">
             <div>
                 <Price :price="offer.amount" class="text-xl" />
@@ -11,7 +13,7 @@
                 </div>
 
                 <div class="text-gray-500 text-sm">
-                    Made by John Doe
+                    Made by {{ offer.bidder.name }}
                 </div>
                 
                 <div class="text-gray-500 text-sm">
@@ -19,17 +21,23 @@
                 </div>
             </div>
             <div>
-                <Link class="btn-outline text-xs font-medium">Accept</Link>
+                <Link 
+                    :href="route('realtor.offer.accept', {offer: offer.id})"
+                    class="btn-outline text-xs font-medium"
+                    method="PUT"
+                >
+                    Accept
+                </Link>
             </div>
         </section>
     </Box>
 </template>
 
 <script setup>
-import Price from '@/Components/Price.vue';
-import Box from '@/Components/UI/Box.vue';
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import Price from '@/Components/Price.vue';
+import Box from '@/Components/UI/Box.vue';
 
 const props = defineProps({
     offer: Object,

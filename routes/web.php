@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ListingOfferController;
+use App\Http\Controllers\RealtorListingAcceptOfferController;
 use App\Http\Controllers\RealtorListingController;
 use App\Http\Controllers\RealtorListingImageController;
 use App\Http\Controllers\UserAccountController;
@@ -53,6 +54,10 @@ Route::prefix('realtor') // in url
             // ->only(['index', 'destroy', 'edit', 'update', 'create', 'store'])
             ->withTrashed(); //Calling withTrashed() with no arguments will allow soft deleted models for show, edit, and update resource routes. 
             // You may specify a subset of these routes by passing an array to the withTrashed method like: Route::resource('photos', PhotoController::class)->withTrashed(['show']);
+
+        // Modify something use PUT or PATCH
+        Route::name('offer.accept')
+            ->put('offer/{offer}/accept', RealtorListingAcceptOfferController::class);
 
         Route::resource('listing.image', RealtorListingImageController::class)
             ->only(['create', 'store', 'destroy']);
