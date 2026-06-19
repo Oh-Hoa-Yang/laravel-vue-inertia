@@ -44,12 +44,12 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import ListingSpace from '@/Components/ListingSpace.vue';
 import Price from '@/Components/Price.vue';
 import Box from '@/Components/UI/Box.vue';
-import { Link } from '@inertiajs/vue3';
 import ListingAddress from '../../Components/ListingAddress.vue';
-import { computed } from 'vue';
 import Offer from './Show/Components/Offer.vue';
 
 
