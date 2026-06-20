@@ -40,6 +40,7 @@ class ListingController extends Controller
                 // With the way of using the local scope, we can use the mostRecent() and filter($filters) anywhere, not only in this specific Controller
                 'listings' => Listing::mostRecent()
                     ->filter($filters)
+                    ->withoutSold()
                     ->paginate(10)
                     ->withQueryString()
             ]
