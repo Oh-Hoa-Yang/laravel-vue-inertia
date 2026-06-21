@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'Test User2',
             'email' => 'test2@example.com',
             // Do not need to defined 'is_admin' here, as by default, it is false
         ]);
