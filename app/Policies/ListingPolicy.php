@@ -33,7 +33,13 @@ class ListingPolicy
      */
     public function view(?User $user, Listing $listing): bool
     {
-        return true;
+        // only the user that created the listing can see the listing
+        if ($listing->by_user_id === $user?->id) {
+            return true;
+        }
+        
+        // otherwise, you can only see this listing, which sold_at attribute is exactly null -> means the listing is not sold.
+        return $listing->sold_at === null;
     }
 
     /**
@@ -52,7 +58,8 @@ class ListingPolicy
         // We need some rules here, it is not everyone can update it
         // we use by_user_id to compare with the user's id
         // this rule means that the only people who can modify a listing are the people who have created the listing
-        return $user->id === $listing->by_user_id; /* || $user->is_admin; */
+        return $listing->sold_at === null && ($user->id === $listing->by_user_id); /* || $user->is_admin; */
+        // the return now meaning to the update only can apply if the listing record NOT YET SOLD && only the people created the listing can make an update.
     }
 
     /**

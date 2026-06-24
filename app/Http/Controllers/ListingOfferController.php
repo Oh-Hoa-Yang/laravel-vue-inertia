@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ListingOfferController extends Controller
 {
     public function store(Listing $listing, Request $request) 
     {
+        Gate::authorize('view', $listing);
         // since we have the listing fetched, we know that listing has the offers relationship. If you remember about associating new items in 1-to-Many relationship, you can use this relationship save() method. Then pass object, in this case would be new offer object.
         // Hint: You can also call $listing->offers()->make([]) to create a new Offer model
         // Hint: You can also call $listing->offers()->create($request->validate([...])) to create, store and associate the Offer with Listing!
