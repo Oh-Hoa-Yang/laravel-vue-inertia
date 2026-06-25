@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Offer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,7 +15,9 @@ class OfferMade extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct() 
+    // the parameter defined in this way, this is a shorthand syntax to define a field in a class and initialize it through the constructor
+    // That's the thing you do so often that the recent PHP version has this shortcut 
+    public function __construct(private Offer $offer) 
     {
         //
     }
@@ -27,7 +30,7 @@ class OfferMade extends Notification
     public function via(object $notifiable): array 
     //Specifies how this notification should be delivered to the user. You can specify one or multiple delivery channels. This is for example, 'mail' or 'database'.
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -49,7 +52,10 @@ class OfferMade extends Notification
     public function toArray(object $notifiable): array //Specify what data would you like to save to the database
     {
         return [
-            //
+            'offer_id' => $this->offer->id,
+            'listing_id' => $this->offer->listing_id,
+            'amount' => $this->offer->amount,
+            'bidder_id' => $this->offer->bidder_id
         ];
     }
 }

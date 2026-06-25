@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use App\Models\Offer;
+use App\Notifications\OfferMade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +16,7 @@ class ListingOfferController extends Controller
         // since we have the listing fetched, we know that listing has the offers relationship. If you remember about associating new items in 1-to-Many relationship, you can use this relationship save() method. Then pass object, in this case would be new offer object.
         // Hint: You can also call $listing->offers()->make([]) to create a new Offer model
         // Hint: You can also call $listing->offers()->create($request->validate([...])) to create, store and associate the Offer with Listing!
-        $listing->offers()->save(
+        $offer = $listing->offers()->save(
             Offer::make(
                 $request->validate([
                     'amount' => 'required|integer|min:1|max:20000000'
@@ -25,6 +26,10 @@ class ListingOfferController extends Controller
                 // |or|
                 // the     easiest way is just to get the user using the $request object that we already have here. ->associate($request->user())
             )->bidder()->associate($request->user())
+         );
+
+         $listing->owner->notify(
+            new OfferMade($offer)
          );
 
          return redirect()->back()->with('success', 'Offer was made!');
