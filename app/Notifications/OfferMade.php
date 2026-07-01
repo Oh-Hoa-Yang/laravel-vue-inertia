@@ -30,7 +30,7 @@ class OfferMade extends Notification
     public function via(object $notifiable): array 
     //Specifies how this notification should be delivered to the user. You can specify one or multiple delivery channels. This is for example, 'mail' or 'database'.
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -39,8 +39,8 @@ class OfferMade extends Notification
     public function toMail(object $notifiable): MailMessage //Specify how to convert this notification class to an email.
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
+            ->line("New offer ({$this->offer->amount}) was made for your listing")
+            ->action('See Your Listing', route('realtor.listing.show',['listing' => $this->offer->listing_id]))
             ->line('Thank you for using our application!');
     }
 
