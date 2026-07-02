@@ -49,12 +49,19 @@ Route::post('login',[AuthController::class, 'store'])
 Route::delete('logout',[AuthController::class, 'destroy'])
     ->name('logout');
 
+// You are not really forced to use controllers in Laravel, I think they work best with bigger applications. But you can actually implement every route directly inside this web.php file. And we'll begin with this way and then we might eventually move all those routes to a controller. 
+Route::get('/email/verify', function () {
+    return inertia('Auth/VerifyEmail');
+})
+    ->middleware('auth')
+    ->name('verification.notice'); // the reason for this name is that the Laravel mechanism, this verified middleware that stops user from visiting pages when they are not verified, will just redirect to that specific route 'verification.notice'. That's why it needs this specific name
+
 Route::resource('user-account', UserAccountController::class)
     ->only(['create', 'store']);
 
 Route::prefix('realtor') // in url
     ->name('realtor.')   // in route name
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->group(function () {
         Route::name('listing.restore')
             ->put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])
