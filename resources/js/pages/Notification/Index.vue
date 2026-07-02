@@ -39,9 +39,9 @@
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import Price from "../../Components/Price.vue";
 import EmptyState from "@/Components/UI/EmptyState.vue";
 import Pagination from "@/Components/UI/Pagination.vue";
+import Price from "../../Components/Price.vue";
 defineProps({
     notifications: Object, //it is an object because we use pagination
 })
