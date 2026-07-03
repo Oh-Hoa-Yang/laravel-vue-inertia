@@ -10,6 +10,7 @@ use App\Http\Controllers\RealtorListingAcceptOfferController;
 use App\Http\Controllers\RealtorListingController;
 use App\Http\Controllers\RealtorListingImageController;
 use App\Http\Controllers\UserAccountController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 // use Inertia\Inertia;
 
@@ -55,6 +56,12 @@ Route::get('/email/verify', function () {
 })
     ->middleware('auth')
     ->name('verification.notice'); // the reason for this name is that the Laravel mechanism, this verified middleware that stops user from visiting pages when they are not verified, will just redirect to that specific route 'verification.notice'. That's why it needs this specific name
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('listing.index')
+        ->with('success', 'Email was verified!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::resource('user-account', UserAccountController::class)
     ->only(['create', 'store']);
